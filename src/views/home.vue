@@ -4,25 +4,12 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script lang="ts">
+import { computed, defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import TemplateList from './../components/TemplateList.vue'
-
-const testData = [
-  {
-    id: 1,
-    coverImg: 'https://static.imooc-lego.com/upload-files/screenshot-889755.png'
-  },
-  { id: 2, coverImg: 'http://static-dev.imooc-lego.com/imooc-test/sZHlgv.png' },
-  {
-    id: 3,
-    coverImg: 'https://static.imooc-lego.com/upload-files/screenshot-323204.png'
-  },
-  { id: 4, coverImg: 'https://static.imooc-lego.com/upload-files/screenshot-677311.png' },
-  { id: 5, coverImg: 'https://static.imooc-lego.com/upload-files/screenshot-726751.png' },
-  { id: 6, coverImg: 'https://static.imooc-lego.com/upload-files/screenshot-682056.png' }
-]
+import { useStore } from 'vuex'
+import { GlobalDataProps } from '../store/index'
 
 export default defineComponent({
   name: 'Home',
@@ -30,10 +17,10 @@ export default defineComponent({
     TemplateList
   },
   setup() {
-    const router = useRouter()
+    const store = useStore<GlobalDataProps>()
+    const testData = computed(() => store.state.templates)
 
     return {
-      router,
       testData
     }
   }
