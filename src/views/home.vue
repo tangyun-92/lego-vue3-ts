@@ -18,7 +18,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore<GlobalDataProps>()
-    const testData = computed(() => store.state.templates)
+    const testData = computed(() => store.state.templates.data)
 
     return {
       testData
@@ -28,4 +28,15 @@ export default defineComponent({
 </script>
 
 <style>
+.page-title {
+  color: #fff;
+}
+.content-container {
+  background: #fff;
+  padding: 0 24px 24px 30px;
+  min-height: 85vh;
+  max-width: 1200px;
+  margin: 50px auto;
+  width: 100%;
+}
 </style>

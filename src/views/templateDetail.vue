@@ -1,6 +1,5 @@
 <template>
 <div class="work-detail-container">
-  <pre>{{route}}</pre>
   <a-row type="flex" justify="center" v-if="template">
     <a-col :span="8" class="cover-img">
       <a :href="template.coverImg"><img :src="template.coverImg" alt="" id="cover-img"></a>
@@ -39,17 +38,18 @@
 <script lang="ts">
 import { defineComponent, computed, onMounted, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
-// import { useStore } from 'vuex'
-// import { GlobalDataProps } from '../store/index'
-// import { TemplateProps } from '../store/templates'
+import { useStore } from 'vuex'
+import { GlobalDataProps } from '../store/index'
+import { TemplateProps } from '../store/templates'
 // import { baseH5URL } from '../main'
 // import { generateQRCode, downloadImage } from '../helper'
 
 export default defineComponent({
   setup () {
     const route = useRoute()
-  //   const store = useStore<GlobalDataProps>()
-  //   const currentId = route.params.id as string
+    const store = useStore<GlobalDataProps>()
+    const currentId = route.params.id as string
+    const template = computed<TemplateProps>(() => store.getters.getTemplateById(parseInt(currentId)))
   //   const template = computed<TemplateProps>(() => store.getters.getTemplateById(parseInt(currentId)))
   //   const channelURL = computed(() => `${baseH5URL}/p/${template.value.id}-${template.value.uuid}`)
   //   onMounted(async () => {
@@ -63,7 +63,7 @@ export default defineComponent({
 
     return {
       route,
-      // template,
+      template,
       // download
     }
   }
