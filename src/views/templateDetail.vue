@@ -45,6 +45,7 @@ import { TemplateProps } from '../store/templates'
 // import { generateQRCode, downloadImage } from '../helper'
 
 export default defineComponent({
+  name: 'TemplateDetail',
   setup () {
     const route = useRoute()
     const store = useStore<GlobalDataProps>()
