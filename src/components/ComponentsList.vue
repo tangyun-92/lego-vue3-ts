@@ -14,6 +14,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import LText from '../components/LText.vue'
+import { TextComponentProps } from '../defaultProps'
 
 export default defineComponent({
   name: 'ComponentsList',

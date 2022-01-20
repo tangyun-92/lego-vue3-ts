@@ -57,5 +57,6 @@ button.l-text-component {
   box-sizing: border-box;
   white-space: pre-wrap;
   position: relative !important;
+  margin: 5px 0;
 }
 </style>

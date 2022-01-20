@@ -34,6 +34,7 @@ import { GlobalDataProps } from '../store/index'
 import { defaultTextTemplates } from '../defaultTextTemplates'
 import LText from '../components/LText.vue'
 import ComponentsList from '../components/ComponentsList.vue'
+import { TextComponentProps } from '../defaultProps'
 
 export default defineComponent({
   name: 'Editor',
@@ -45,7 +46,7 @@ export default defineComponent({
     const store = useStore<GlobalDataProps>()
     const components = computed(() => store.state.editor.components)
 
-    const addItem = (props: any) => {
+    const addItem = (props: TextComponentProps) => {
       store.commit('addComponent', props)
     }
 
