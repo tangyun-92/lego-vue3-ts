@@ -40,6 +40,7 @@ export const textDefaultProps = {
   ...commonDefaultProps,
 }
 
+// 方式一：使用lodash-es
 export const textStylePropNames = without(
   Object.keys(textDefaultProps),
   'actionType',
@@ -47,6 +48,13 @@ export const textStylePropNames = without(
   'text'
 )
 
+// 方式二：通过es6过滤
+// const removePropArray = ['actionType', 'url', 'text']
+// export const textStylePropNames = Object.keys(textDefaultProps).filter(
+//   (item) => !removePropArray.some((ele) => item === ele)
+// )
+
+// 方法一
 export const transformToComponentProps = <T extends { [key: string]: any }>(
   props: T
 ) => {
@@ -57,3 +65,25 @@ export const transformToComponentProps = <T extends { [key: string]: any }>(
     }
   })
 }
+
+// 方法二
+// export const transformToComponentProps = <T extends { [key: string]: any }>(
+//   props: T
+// ) => {
+//   const list = Object.getOwnPropertyNames(props).map((item: string) => {
+//     return {
+//       type: props[item].constructor,
+//       default: props[item],
+//       name: item,
+//     }
+//   })
+//   const obj = Object.assign(props)
+//   list.map((item) => {
+//     for (const o in obj) {
+//       if (item.name === o) {
+//         obj[o] = item
+//       }
+//     }
+//   })
+//   return obj
+// }

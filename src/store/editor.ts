@@ -25,6 +25,17 @@ const editor: Module<EditorProps, GlobalDataProps> = {
   state: {
     components: testComponents,
     currentElement: ''
+  },
+  mutations: {
+    addComponent(state, props) {
+      const newComponent: ComponentData = {
+        id: uuidv4(),
+        name: 'LText',
+        props,
+      }
+      state.components.push(newComponent)
+      console.log(state.components)
+    }
   }
 }
 
