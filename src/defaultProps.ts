@@ -92,13 +92,13 @@ export const textStylePropNames = without(
 // )
 
 // 方法一
-export const transformToComponentProps = <T extends { [key: string]: any }>(
+export const transformToComponentProps = <T extends {}>(
   props: T
 ) => {
   return mapValues(props, (item) => {
     return {
-      type: item.constructor, // 通过constructor可以拿到属性的类型
-      default: item
+      type: (item as any).constructor as StringConstructor, // 通过constructor可以拿到属性的类型
+      default: item,
     }
   })
 }

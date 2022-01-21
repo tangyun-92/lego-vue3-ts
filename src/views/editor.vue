@@ -1,27 +1,42 @@
 <template>
-  <div class="editor" id="editor-layout-main">
+  <div class="editor-container">
     <a-layout>
-      <a-layout-sider width="300" style="background: yellow">
+      <a-layout-sider width="300" style="background: #fff">
         <div class="sidebar-container">
           组件列表
-          <components-list :list="defaultTextTemplates" @onItemClick="addItem"></components-list>
+          <components-list
+            :list="defaultTextTemplates"
+            @onItemClick="addItem"
+          ></components-list>
         </div>
       </a-layout-sider>
       <a-layout style="padding: 0 24px 24px">
         <a-layout-content class="preview-container">
           <p>画布区域</p>
           <div class="preview-list" id="canvas-area">
-            <component
+            <editor-wrapper
               v-for="component in components"
               :key="component.id"
-              :is="component.name"
-              v-bind="component.props"
-            />
+              :id="component.id"
+              :active="component.id === (currentElement && currentElement.id)"
+              @set-active="setActive"
+            >
+              <component :is="component.name" v-bind="component.props" />
+            </editor-wrapper>
           </div>
         </a-layout-content>
       </a-layout>
-      <a-layout-sider width="300" style="background: purple" class="setting">
+      <a-layout-sider
+        width="300"
+        style="background: #fff"
+        class="settings-panel"
+      >
         组件属性
+        <props-table
+          v-if="currentElement && currentElement.props"
+          :props="currentElement.props"
+        ></props-table>
+        <pre>{{ currentElement && currentElement.props }}</pre>
       </a-layout-sider>
     </a-layout>
   </div>
@@ -34,26 +49,39 @@ import { GlobalDataProps } from '../store/index'
 import { defaultTextTemplates } from '../defaultTextTemplates'
 import LText from '../components/LText.vue'
 import ComponentsList from '../components/ComponentsList.vue'
+import EditorWrapper from '../components/EditorWrapper.vue'
+import PropsTable from '../components/PropsTable.vue'
 import { TextComponentProps } from '../defaultProps'
+import { ComponentData } from '../store/editor'
 
 export default defineComponent({
   name: 'Editor',
   components: {
     LText,
-    ComponentsList
+    ComponentsList,
+    EditorWrapper,
+    PropsTable
   },
   setup() {
     const store = useStore<GlobalDataProps>()
     const components = computed(() => store.state.editor.components)
-
+    const currentElement = computed<ComponentData | null>(
+      () => store.getters.getCurrentElement
+    )
     const addItem = (props: TextComponentProps) => {
       store.commit('addComponent', props)
+    }
+
+    const setActive = (id: string) => {
+      store.commit('setActive', id)
     }
 
     return {
       components,
       defaultTextTemplates,
-      addItem
+      addItem,
+      setActive,
+      currentElement
     }
   }
 })
