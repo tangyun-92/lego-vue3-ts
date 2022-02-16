@@ -4,16 +4,18 @@
       <span class="label" v-if="value.text">{{ value.text }}</span>
       <div class="prop-component">
         <component
-          :is="value.component"
-          :value="value.value"
-          v-bind="value.extraProps"
+            :is="value.component"
+            :[value.valueProp]="value.value"
+            :value="value.value"
+            v-bind="value.extraProps"
+            v-on="value.events"
         >
           <template v-if="value.options">
             <component
-              :is="value.subComponent"
-              v-for="(option, k) in value.options"
-              :key="k"
-              :value="option.value"
+                :is="value.subComponent"
+                v-for="(option, k) in value.options"
+                :key="k"
+                :value="option.value"
             >
               {{ option.text }}
             </component>
@@ -25,10 +27,22 @@
 </template>
 
 <script lang="ts">
-import { reduce } from 'lodash'
-import { computed, defineComponent, PropType } from 'vue'
-import { TextComponentProps } from '../defaultProps'
-import { mapPropsToForms, PropsToForms, PropToForm } from '../propsMap'
+import {reduce} from 'lodash'
+import {computed, defineComponent, PropType} from 'vue'
+import {TextComponentProps} from '../defaultProps'
+import {mapPropsToForms, PropsToForms, PropToForm} from '../propsMap'
+
+interface FormProps {
+  component: string;
+  subComponent?: string;
+  value: string;
+  extraProps?: { [key: string]: any };
+  text?: string;
+  options?: { text: string; value: any }[];
+  valueProp: string;
+  eventName: string;
+  events: { [key: string]: (e: any) => void };
+}
 
 export default defineComponent({
   name: 'PropsTable',
@@ -38,20 +52,37 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ['change'],
+  setup(props, context) {
     const finalProps = computed(() => {
       return reduce(
-        props.props,
-        (result, value, key) => {
-          const newKey = key as keyof TextComponentProps
-          const item = mapPropsToForms[newKey]
-          if (item) {
-            item.value = item.initTransform ? item.initTransform(value) : value
-            result[newKey] = item
-          }
-          return result
-        },
-        {} as Required<PropsToForms>
+          props.props,
+          (result, value, key) => {
+            const newKey = key as keyof TextComponentProps
+            const item = mapPropsToForms[newKey]
+            if (item) {
+              const {
+                valueProp = 'value',
+                eventName = 'change',
+                initTransform,
+                afterTransform
+              } = item
+              const newItem: FormProps = {
+                ...item,
+                value: initTransform ? initTransform(value) : value,
+                valueProp,
+                eventName,
+                events: {
+                  [eventName]: (e: any) => {
+                    context.emit('change', {key, value: afterTransform ? afterTransform(e) : e})
+                  }
+                }
+              }
+              result[newKey] = newItem
+            }
+            return result
+          },
+          {} as { [key: string]: FormProps }
       )
     })
 
@@ -68,9 +99,11 @@ export default defineComponent({
   margin-bottom: 10px;
   align-items: center;
 }
+
 .label {
   width: 28%;
 }
+
 .prop-component {
   width: 70%;
 }

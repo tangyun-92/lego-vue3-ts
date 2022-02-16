@@ -1,13 +1,18 @@
 import { TextComponentProps } from './defaultProps'
+import {parseInt} from "lodash-es";
 
 export interface PropToForm {
   component: string;
   subComponent?: string;
-  value?: string;
+  // value?: string;
   extraProps?: { [key: string]: any };
   text?: string;
   options?: { text: string; value: any }[];
   initTransform?: (v: any) => any;
+  afterTransform?: (v: any) => any;
+  valueProp?: string;
+  eventName?: string;
+  // events?:
 }
 
 export type PropsToForms = {
@@ -19,17 +24,20 @@ export const mapPropsToForms: PropsToForms = {
     text: '文本',
     component: 'a-textarea',
     extraProps: { rows: 3 },
+    afterTransform: (e: any) => e.target.value
   },
   fontSize: {
     text: '字号',
     component: 'a-input-number',
     initTransform: (v: string) => parseInt(v),
+    afterTransform: (e: number) => e ? `${e}px` : '',
   },
   lineHeight: {
     text: '行高',
     component: 'a-slider',
     extraProps: { min: 0, max: 3, step: 0.1 },
     initTransform: (v: string) => parseFloat(v),
+    afterTransform: (e: number) => e.toString(),
   },
   textAlign: {
     component: 'a-radio-group',
@@ -40,6 +48,7 @@ export const mapPropsToForms: PropsToForms = {
       { value: 'center', text: '中' },
       { value: 'right', text: '右' },
     ],
+    afterTransform: (e: any) => e.target.value
   },
   fontFamily: {
     component: 'a-select',
