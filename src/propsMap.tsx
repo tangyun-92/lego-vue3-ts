@@ -1,4 +1,5 @@
-import { TextComponentProps } from './defaultProps'
+import {VNode, h} from 'vue'
+import {TextComponentProps} from './defaultProps'
 import {parseInt} from "lodash-es";
 
 export interface PropToForm {
@@ -7,7 +8,7 @@ export interface PropToForm {
   // value?: string;
   extraProps?: { [key: string]: any };
   text?: string;
-  options?: { text: string; value: any }[];
+  options?: { text: string | VNode; value: any }[];
   initTransform?: (v: any) => any;
   afterTransform?: (v: any) => any;
   valueProp?: string;
@@ -19,11 +20,24 @@ export type PropsToForms = {
   [P in keyof TextComponentProps]?: PropToForm // 通过属性的循环拿到TextComponentProps所有的key
 }
 
+const fontFamilyArr = [
+  {text: '宋体', value: '"SimSun","STSong"'},
+  {text: '黑体', value: '"SimHei","STHeiti"'},
+  {text: '楷体', value: '"KaiTi","STKaiti"'},
+  {text: '仿宋', value: '"FangSong","STFangsong"'},
+]
+const fontFamilyOptions = fontFamilyArr.map(font => {
+  return {
+    value: font.value,
+    text: <span style={{fontFamily: font.value}}>{font.text}</span> as VNode
+  }
+})
+
 export const mapPropsToForms: PropsToForms = {
   text: {
     text: '文本',
     component: 'a-textarea',
-    extraProps: { rows: 3 },
+    extraProps: {rows: 3},
     afterTransform: (e: any) => e.target.value
   },
   fontSize: {
@@ -35,7 +49,7 @@ export const mapPropsToForms: PropsToForms = {
   lineHeight: {
     text: '行高',
     component: 'a-slider',
-    extraProps: { min: 0, max: 3, step: 0.1 },
+    extraProps: {min: 0, max: 3, step: 0.1},
     initTransform: (v: string) => parseFloat(v),
     afterTransform: (e: number) => e.toString(),
   },
@@ -44,9 +58,9 @@ export const mapPropsToForms: PropsToForms = {
     subComponent: 'a-radio-button',
     text: '对齐',
     options: [
-      { value: 'left', text: '左' },
-      { value: 'center', text: '中' },
-      { value: 'right', text: '右' },
+      {value: 'left', text: '左'},
+      {value: 'center', text: '中'},
+      {value: 'right', text: '右'},
     ],
     afterTransform: (e: any) => e.target.value
   },
@@ -55,11 +69,8 @@ export const mapPropsToForms: PropsToForms = {
     subComponent: 'a-select-option',
     text: '字体',
     options: [
-      { value: '', text: '无' },
-      { text: '宋体', value: '"SimSun","STSong"' },
-      { text: '黑体', value: '"SimHei","STHeiti"' },
-      { text: '楷体', value: '"KaiTi","STKaiti"' },
-      { text: '仿宋', value: '"FangSong","STFangsong"' },
+      {value: '', text: '无'},
+      ...fontFamilyOptions
     ],
   },
 }

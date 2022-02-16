@@ -1,7 +1,7 @@
-import { Module } from 'vuex'
-import { GlobalDataProps } from './index'
-import { v4 as uuidv4 } from 'uuid'
-import { TextComponentProps } from '../defaultProps'
+import {Module} from 'vuex'
+import {GlobalDataProps} from './index'
+import {v4 as uuidv4} from 'uuid'
+import {TextComponentProps} from '../defaultProps'
 
 export interface EditorProps {
   // 中间编辑器渲染的数组
@@ -9,6 +9,7 @@ export interface EditorProps {
   // 当前编辑的是哪个元素
   currentElement: string;
 }
+
 export interface ComponentData {
   props: { [key: string]: any };
   // 通过 uuid v4 生成
@@ -70,7 +71,7 @@ const editor: Module<EditorProps, GlobalDataProps> = {
     setActive(state, currentId: string) {
       state.currentElement = currentId
     },
-    updateComponent(state, { key, value }) {
+    updateComponent(state, {key, value}) {
       const updateComponent = state.components.find(component => component.id === state.currentElement)
       if (updateComponent) {
         updateComponent.props[key as keyof TextComponentProps] = value

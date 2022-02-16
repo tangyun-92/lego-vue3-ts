@@ -28,9 +28,9 @@
 
 <script lang="ts">
 import {reduce} from 'lodash'
-import {computed, defineComponent, PropType} from 'vue'
+import {computed, defineComponent, PropType, VNode} from 'vue'
 import {TextComponentProps} from '../defaultProps'
-import {mapPropsToForms, PropsToForms, PropToForm} from '../propsMap'
+import {mapPropsToForms} from '../propsMap'
 
 interface FormProps {
   component: string;
@@ -38,7 +38,7 @@ interface FormProps {
   value: string;
   extraProps?: { [key: string]: any };
   text?: string;
-  options?: { text: string; value: any }[];
+  options?: { text: string | VNode; value: any }[];
   valueProp: string;
   eventName: string;
   events: { [key: string]: (e: any) => void };
