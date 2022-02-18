@@ -21,7 +21,7 @@
               :active="component.id === (currentElement && currentElement.id)"
               @set-active="setActive"
             >
-              <component :is="component.name" v-bind="component.props" />
+              <component :is="component.name" v-bind="component.props"/>
             </editor-wrapper>
           </div>
         </a-layout-content>
@@ -44,16 +44,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
-import { useStore } from 'vuex'
-import { GlobalDataProps } from '../store/index'
-import { defaultTextTemplates } from '../defaultTextTemplates'
+import {computed, defineComponent} from 'vue'
+import {useStore} from 'vuex'
+import {GlobalDataProps} from '../store/index'
+import {defaultTextTemplates} from '../defaultTextTemplates'
 import LText from '../components/LText.vue'
 import ComponentsList from '../components/ComponentsList.vue'
 import EditorWrapper from '../components/EditorWrapper.vue'
 import PropsTable from '../components/PropsTable'
-import { TextComponentProps } from '../defaultProps'
-import { ComponentData } from '../store/editor'
+import {TextComponentProps} from '../defaultProps'
+import {ComponentData} from '../store/editor'
 
 export default defineComponent({
   name: 'Editor',
@@ -104,6 +104,7 @@ export default defineComponent({
   align-items: center;
   position: relative;
 }
+
 .editor-container .preview-list {
   padding: 0;
   margin: 0;
@@ -117,17 +118,21 @@ export default defineComponent({
   margin-top: 50px;
   max-height: 80vh;
 }
+
 .page-title {
   display: flex;
 }
+
 .page-title .inline-edit span {
   font-weight: 500;
   margin-left: 10px;
   font-size: 16px;
 }
+
 .preview-list.canvas-fix .edit-wrapper > * {
   box-shadow: none !important;
 }
+
 .preview-list.canvas-fix {
   position: absolute;
   max-height: none;

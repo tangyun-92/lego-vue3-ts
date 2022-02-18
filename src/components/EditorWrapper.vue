@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
 
 export default defineComponent({
   name: 'EditorWrapper',
@@ -28,7 +28,7 @@ export default defineComponent({
     const onItemClick = (id: string) => {
       context.emit('set-active', id)
     }
-    
+
     return {
       onItemClick
     }
@@ -43,9 +43,11 @@ export default defineComponent({
   border: 1px solid transparent;
   user-select: none;
 }
+
 .edit-wrapper:hover {
   border: 1px dashed #ccc;
 }
+
 .edit-wrapper.active {
   border: 1px solid #1890ff;
   user-select: none;

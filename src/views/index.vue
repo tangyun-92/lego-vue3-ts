@@ -20,7 +20,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
-import { GlobalDataProps } from '../store/index'
+import { GlobalDataProps } from '@/store'
 import UserProfile from '../components/UserProfile.vue'
 
 export default defineComponent({
@@ -31,7 +31,7 @@ export default defineComponent({
   setup () {
     const store = useStore<GlobalDataProps>()
     const user = computed(() => store.state.user)
-    
+
     return {
       user
     }

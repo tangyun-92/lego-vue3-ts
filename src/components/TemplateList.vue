@@ -5,10 +5,11 @@
         <router-link :to="{ name: 'template', params: { id: item.id } }">
           <a-card hoverable>
             <template v-slot:cover>
-              <img :src="item.coverImg" v-if="item.coverImg" />
+              <img :src="item.coverImg" v-if="item.coverImg" alt=""/>
               <img
                 src="http://typescript-vue.oss-cn-beijing.aliyuncs.com/vue-marker/5f81cca3f3bf7a0e1ebaf885.png"
                 v-else
+                alt=""
               />
               <div class="hover-item">
                 <a-button size="large" type="primary">使用该模版创建</a-button>
@@ -24,8 +25,8 @@
             </a-card-meta>
           </a-card>
           <div class="tag-list">
-            <a-tag color="red" v-if="item.isHot"> HOT </a-tag>
-            <a-tag color="green" v-if="item.isNew"> NEW </a-tag>
+            <a-tag color="red" v-if="item.isHot"> HOT</a-tag>
+            <a-tag color="green" v-if="item.isNew"> NEW</a-tag>
           </div>
         </router-link>
       </a-col>
@@ -34,8 +35,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { TemplateProps } from '../store/templates'
+import {defineComponent, PropType} from 'vue'
+import {TemplateProps} from '@/store/templates'
 
 export default defineComponent({
   name: 'TemplateList',
@@ -53,59 +54,74 @@ export default defineComponent({
   position: relative;
   margin-bottom: 20px;
 }
+
 .poster-item .ant-card {
   border-radius: 12px;
 }
+
 .tag-list {
   position: absolute;
   top: -4px;
   left: 6px;
 }
+
 .poster-item .ant-card-cover {
   height: 390px;
 }
+
 .poster-item .ant-card-cover > img {
   width: 100%;
 }
+
 .poster-item .ant-card-hoverable {
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
 }
+
 .poster-item .ant-card-body {
   padding: 0;
 }
+
 .poster-item .ant-card-meta {
   margin: 0;
 }
+
 .poster-item .ant-card-meta-title {
   color: #333;
   padding: 10px 12px;
   border-bottom: 1px solid #f2f2f2;
   margin-bottom: 0 !important;
 }
+
 .description-detail {
   display: flex;
   justify-content: space-between;
   padding: 13px 12px;
   color: #999;
 }
+
 .user-number {
   font-weight: bold;
 }
+
 .poster-title {
   height: 70px;
 }
+
 .poster-title h2 {
   margin-bottom: 0px;
 }
+
 .poster-item .ant-card-cover {
   position: relative;
   overflow: hidden;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 }
+
 .poster-item .ant-card-cover img {
   transition: all ease-in 0.2s;
 }
+
 .poster-item .ant-card-cover .hover-item {
   position: absolute;
   left: 0;
@@ -119,12 +135,15 @@ export default defineComponent({
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 }
+
 .poster-item:hover .hover-item {
   display: flex;
 }
+
 .poster-item:hover img {
   transform: scale(1.25);
 }
+
 .barcode-container img {
   border-radius: 0;
 }

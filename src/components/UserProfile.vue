@@ -22,7 +22,7 @@
 import { defineComponent, PropType } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { UserProps } from '../store/user'
+import { UserProps } from '@/store/user'
 import { message } from 'ant-design-vue'
 
 export default defineComponent({
